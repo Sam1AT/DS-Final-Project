@@ -62,6 +62,16 @@ def find_family_member(family  ,fname):
 
     return None
 
+def perform_delete(node):
+    parent = node.parent
+    
+    if not parent:
+        print('Cant delete sahab hamatoon')
+        return None
+
+    parent.children.remove(node)
+
+    del node
 
 
 #################################################################################################################
@@ -111,7 +121,30 @@ while opt:
         name = input()
         selected_parent.add_child(name)
         
-        print(selected_parent.children)
+        print('Created ! ! !')
         
     elif opt == 3:
-        pass
+        print('choose a family: ')
+        show_families(families)
+        fname = input()
+        selected_family = find_family(families  ,fname)
+        
+        if not selected_family:
+            print('! ! ! not found ! ! !')
+            continue
+        
+        print('choose a member: ')
+        show_family_members(selected_family)
+        pname = input()
+        selected_parent = find_family_member(selected_family , pname)
+
+        if not selected_parent:
+            print('! ! ! not found ! ! !')
+            continue  
+        
+        perform_delete(selected_parent)
+        
+        print('Deleted ! ! !')
+   
+
+    print(families)

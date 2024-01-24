@@ -11,11 +11,7 @@ class Node:
     def __str__(self) -> str:
         return self.name
 
-                
-                
-def create_tree(name): # O(1)
-    root = Node(name)
-    return root
+
 
 def show_families(f):
     for x in f:
@@ -73,6 +69,51 @@ def perform_delete(node):
 
     del node
 
+def check_parent(m1 , m2):
+    itr = m1
+    while itr:
+        if itr.name == m2.name:
+            return 1
+        itr = itr.parent
+        
+    itr = m2
+    while itr:
+        if itr.name == m1.name:
+            return 1
+        itr = itr.parent
+
+    return 0
+
+def find_common_parent(m1 , m2):
+    m1_parrent_list = []
+    itr = m1
+    while itr:
+        m1_parrent_list.append(itr.name)
+        itr = itr.parent    
+    
+    m2_parrent_list = []
+    itr = m2
+    while itr:
+        m2_parrent_list.append(itr.name)
+        itr = itr.parent   
+        
+    last_common = m1_parrent_list[-1]
+
+    
+    while m1_parrent_list[-1] == m2_parrent_list[-1]:
+        last_common =  m1_parrent_list[-1]
+        
+
+        m1_parrent_list.pop()
+        m2_parrent_list.pop()
+        
+
+        
+        if not m1_parrent_list or not m2_parrent_list:
+            break
+    
+    return last_common
+
 def find_node_with_longest_path(node):
     if not node.children:
         return 0 
@@ -88,35 +129,25 @@ def find_node_with_longest_path(node):
 
 
 
-families = []
+selected_family = Node('chele')
 
 print('Hi , welcome to shajare name app! This app is designed by Sam and Mehrana \n Choose an option:')
 
 opt = 1
 while opt:
-    print('    1) Create a new tree')
-    print('    2) Add to a existing tree')
-    print('    3) Delete from a tree')
-
+    print('    1) Add to the tree')
+    print('    2) Delete from the tree')
+    print('    3) check being parent')
+    print('    4) check being siblings')
+    print('    5) check being second-level family')
+    print('    6) find nearest common parent')
     print('    0) Exit')
     
     opt = int(input())
+
     
     if opt == 1:
-        fname , rname = input('give family name and owner by order and seperated by ,').split()
-        root = create_tree(rname)
-        families.append((fname , root))
-        print('Family created ! ! !')
-    
-    elif opt == 2:
-        print('choose a family: ')
-        show_families(families)
-        fname = input()
-        selected_family = find_family(families  ,fname)
-        
-        if not selected_family:
-            print('! ! ! not found ! ! !')
-            continue
+
         
         print('choose a parent: ')
         show_family_members(selected_family)
@@ -133,15 +164,8 @@ while opt:
         
         print('Created ! ! !')
         
-    elif opt == 3:
-        print('choose a family: ')
-        show_families(families)
-        fname = input()
-        selected_family = find_family(families  ,fname)
-        
-        if not selected_family:
-            print('! ! ! not found ! ! !')
-            continue
+    elif opt == 2:
+
         
         print('choose a member: ')
         show_family_members(selected_family)
@@ -157,4 +181,90 @@ while opt:
         print('Deleted ! ! !')
    
 
-    print(families)
+    elif opt == 3:
+        
+        print('choose members: ')
+        show_family_members(selected_family)
+        name1 = input()
+        name2 = input()
+
+
+        
+        selected_member_1 = find_family_member(selected_family , name1)        
+        selected_member_2 = find_family_member(selected_family , name2)        
+        
+        if not (selected_member_1 and selected_member_2):
+            print('! ! ! not found ! ! !')
+            continue  
+                
+        if check_parent(selected_member_1 , selected_member_2) : 
+            print('YES')
+        else:
+            print('NO')           
+
+    elif opt == 4:
+
+        
+        print('choose members: ')
+        show_family_members(selected_family)
+        name1 = input()
+        name2 = input()
+
+
+        
+        selected_member_1 = find_family_member(selected_family , name1)        
+        selected_member_2 = find_family_member(selected_family , name2)        
+        
+        if not (selected_member_1 and selected_member_2):
+            print('! ! ! not found ! ! !')
+            continue  
+                
+        if selected_member_1.parent.name ==   selected_member_2.parent.name: 
+            print('YES')
+        else:
+            print('NO')   
+
+    elif opt == 5:
+
+        print('choose members: ')
+        show_family_members(selected_family)
+        name1 = input()
+        name2 = input()
+
+
+        
+        selected_member_1 = find_family_member(selected_family , name1)        
+        selected_member_2 = find_family_member(selected_family , name2)        
+        
+        if not (selected_member_1 and selected_member_2):
+            print('! ! ! not found ! ! !')
+            continue  
+                
+        if not check_parent(selected_member_2 ,selected_member_1): 
+            print('YES')
+        else:
+            print('NO') 
+
+    elif opt == 6:
+        
+        print('choose members: ')
+        show_family_members(selected_family)
+        name1 = input()
+        name2 = input()
+
+
+        
+        selected_member_1 = find_family_member(selected_family , name1)        
+        selected_member_2 = find_family_member(selected_family , name2)        
+        
+        if not (selected_member_1 and selected_member_2):
+            print('! ! ! not found ! ! !')
+            continue  
+                
+        print(find_common_parent(selected_member_1 , selected_member_2))            
+    
+    elif opt == 7:
+        name1 = input()
+        selected_member_1 = find_family_member(selected_family , name1)        
+
+        print(find_node_with_longest_path(selected_member_1))

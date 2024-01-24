@@ -263,4 +263,8 @@ while opt:
         name1 = input()
         selected_member_1 = find_family_member(selected_family , name1)        
 
+        if not selected_member_1:
+            print('! ! ! not found ! ! !')
+            continue
+        
         print(find_node_with_longest_path(selected_member_1))

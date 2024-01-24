@@ -73,6 +73,16 @@ def perform_delete(node):
 
     del node
 
+def find_node_with_longest_path(node):
+    if not node.children:
+        return 0 
+
+    m = 0
+    
+    for c in node.children:
+        m = max(m , 1 + find_node_with_longest_path(c))
+
+    return m
 
 #################################################################################################################
 

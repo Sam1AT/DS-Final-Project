@@ -120,6 +120,37 @@ def find_node_with_longest_path(node):
 
     return m
 
+def height(node):
+    
+    if node.children == []:
+        return [1,[node.name]]
+    
+    ans =  max([height(child) for child in node.children], key=lambda x : x[0]) 
+    
+    ans[1].append(node.name)
+    ans[0] = 1 + ans[0]
+    
+    return  ans
+
+def diameter(root):
+    if root.children == []:
+        return [1 , [root.name]]
+
+    heights = [height(child) for child in root.children]
+
+    diameters = [diameter(child) for child in root.children]
+
+    max_in_this_root_maxes = sorted(heights, reverse=True , key=lambda x : x[0])[:2]
+    
+    if len(heights) == 1:
+        max_in_this_root = [max_in_this_root_maxes[0][0] + 1, max_in_this_root_maxes[0][1] + [root.name]]  
+    else:     
+        max_in_this_root = [max_in_this_root_maxes[0][0] + max_in_this_root_maxes[1][0] + 1, max_in_this_root_maxes[0][1] + [root.name] +max_in_this_root_maxes[1][1]]
+    
+    max_in_other_roots = max(diameters, key=lambda x : x[0])
+    
+    return max(max_in_this_root , max_in_other_roots , key=lambda x : x[0])
+
 #################################################################################################################
 
 
@@ -269,5 +300,6 @@ while opt:
         
         print(find_node_with_longest_path(selected_member_1))
 
-    elif opt == 8:       
-        pass
+    elif opt == 8:    
+        ans = diameter(selected_family)[1]  
+        print(ans[0] , ans[-1])        

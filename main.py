@@ -286,7 +286,7 @@ while opt:
             print('! ! ! not found ! ! !')
             continue  
                 
-        if not check_parent(selected_member_2 ,selected_member_1): 
+        if not check_parent(selected_member_2 ,selected_member_1) and not (selected_member_1.parent.name ==   selected_member_2.parent.name): 
             print('YES')
         else:
             print('NO') 

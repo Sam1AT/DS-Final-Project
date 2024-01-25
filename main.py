@@ -1,3 +1,5 @@
+
+
 class Node:
     def __init__(self , name :str , parent = None): # creating a node is from O(1)
         self.name = name
@@ -11,6 +13,7 @@ class Node:
     def __str__(self) -> str:
         return self.name
 
+from hash import sha256
 
 def find_family(families , fname):
     for x in families:
@@ -155,7 +158,7 @@ def diameter(root):
 
 
 
-selected_family = Node('chele')
+selected_family = Node(sha256('chele'))
 
 print('Hi , welcome to shajare name app! This app is designed by Sam and Mehrana \n Choose an option:')
 
@@ -181,6 +184,7 @@ while opt:
         print('choose a parent: ')
         show_family_members(selected_family)
         pname = input()
+        pname = sha256(pname)
         selected_parent = find_family_member(selected_family , pname)
 
         if not selected_parent:
@@ -189,6 +193,8 @@ while opt:
         
         print('Select a name for the child.')
         name = input()
+        name = sha256(name)
+
         selected_parent.add_child(name)
         
         print('Created ! ! !')
@@ -199,6 +205,7 @@ while opt:
         print('choose a member: ')
         show_family_members(selected_family)
         pname = input()
+        pname = sha256(pname)
         selected_parent = find_family_member(selected_family , pname)
 
         if not selected_parent:
@@ -217,6 +224,8 @@ while opt:
         name1 = input()
         name2 = input()
 
+        name1 = sha256(name1)
+        name2 = sha256(name2)
 
         
         selected_member_1 = find_family_member(selected_family , name1)        
@@ -238,7 +247,9 @@ while opt:
         show_family_members(selected_family)
         name1 = input()
         name2 = input()
-
+        
+        name1 = sha256(name1)
+        name2 = sha256(name2)
 
         
         selected_member_1 = find_family_member(selected_family , name1)        
@@ -247,7 +258,11 @@ while opt:
         if not (selected_member_1 and selected_member_2):
             print('! ! ! not found ! ! !')
             continue  
-                
+
+        if not (selected_member_1.parent.name and   selected_member_2.parent.name):
+            print('! ! ! one of them is rais ! ! !')
+            continue         
+
         if selected_member_1.parent.name ==   selected_member_2.parent.name: 
             print('YES')
         else:
@@ -260,6 +275,8 @@ while opt:
         name1 = input()
         name2 = input()
 
+        name1 = sha256(name1)
+        name2 = sha256(name2)
 
         
         selected_member_1 = find_family_member(selected_family , name1)        
@@ -281,7 +298,8 @@ while opt:
         name1 = input()
         name2 = input()
 
-
+        name1 = sha256(name1)
+        name2 = sha256(name2)
         
         selected_member_1 = find_family_member(selected_family , name1)        
         selected_member_2 = find_family_member(selected_family , name2)        
@@ -294,8 +312,11 @@ while opt:
     
     elif opt == 7:
         name1 = input()
+        name1 = sha256(name1)
+
         selected_member_1 = find_family_member(selected_family , name1)        
 
+        
         if not selected_member_1:
             print('! ! ! not found ! ! !')
             continue

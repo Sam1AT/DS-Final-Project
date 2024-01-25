@@ -1,4 +1,28 @@
+import networkx as nx
+import matplotlib.pyplot as plt
 
+def add_edges(graph, node, pos=None, x=0, y=0, layer_height=1, layer_width=1):
+    if pos is None:
+        pos = {node: (x, y)}
+
+    if node.children:
+        dx = layer_width / len(node.children)
+        next_x = x - layer_width / 2 + dx / 2
+
+        for child in node.children:
+            pos[child] = (next_x, y - layer_height)
+            graph.add_edge(node, child)
+            next_x += dx
+            add_edges(graph, child, pos, next_x - dx / 2, y - layer_height, layer_height, layer_width)
+
+def plot_tree(root):
+    graph = nx.Graph()
+    pos = {root: (0, 0)}
+    add_edges(graph, root, pos)
+
+    labels = {node: node.name for node in graph.nodes()}
+    nx.draw(graph, pos, labels=labels, with_labels=True, node_size=700, node_color='cyan', font_size=8, font_color='black' , font_weight='bold', edge_color='gray',)
+    plt.show()
 
 class Node:
     def __init__(self , name :str , parent = None): # creating a node is from O(1)
@@ -172,7 +196,7 @@ while opt:
     print('    6) find nearest common parent')
     print('    7) find great greatest child')
     print('    8) find the diameter of the tree ')
-
+    print('    9) Show tree')
     print('    0) Exit')
     
     opt = int(input())
@@ -326,3 +350,7 @@ while opt:
     elif opt == 8:    
         ans = diameter(selected_family)[1]  
         print(ans[0] , ans[-1])        
+        
+        
+    elif opt == 9:
+        plot_tree(selected_family)

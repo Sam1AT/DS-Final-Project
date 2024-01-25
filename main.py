@@ -168,6 +168,8 @@ while opt:
     print('    5) check being second-level family')
     print('    6) find nearest common parent')
     print('    7) find great greatest child')
+    print('    8) find the diameter of the tree ')
+
     print('    0) Exit')
     
     opt = int(input())
